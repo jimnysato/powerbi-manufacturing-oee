@@ -1,0 +1,617 @@
+cultureInfo pt-BR
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "dmaquina.máquina": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dMaquina",
+			          "ConceptualProperty": "Máquina"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Machine": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dcalendario.mês_ano": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dCalendario",
+			          "ConceptualProperty": "Mês/Ano"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "dturno.nome": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dTurno",
+			          "ConceptualProperty": "Nome"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "fparadas.min_parada": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fParadas",
+			          "ConceptualProperty": "Min Parada"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Downtime minutes": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fparadas.pareto__acumulado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fParadas",
+			          "ConceptualProperty": "Pareto % Acumulado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cumulative %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.eficiência_vs_previsto": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Eficiência vs Previsto"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Efficiency vs plan": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.oee_média_móvel_7d": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "OEE Média Móvel 7d"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "OEE 7-day moving avg": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.produzido": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Produzido"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Produced": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.refugo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "% Refugo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Scrap %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.tempo_parado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "% Tempo Parado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Downtime %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.disponibilidade": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Disponibilidade"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Availability": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.desempenho": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Desempenho"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Performance": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.qualidade": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Qualidade"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Quality": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.oee_1_turno": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "OEE 1º Turno"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "OEE 1st shift": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.oee_2_turno": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "OEE 2º Turno"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "OEE 2nd shift": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.oee_3_turno": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "OEE 3º Turno"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "OEE 3rd shift": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.apontamentos": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Apontamentos"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Records": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.apontamentos_com_problema": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Apontamentos com Problema"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Records with issues": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.apontamentos_completos": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "% Apontamentos Completos"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% Complete records": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.id_apontamento": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "ID Apontamento"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Record ID": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.data": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Data"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Date": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.op": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "OP"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Work order": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.matrícula": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Matrícula"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Operator ID": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fapontamentos.issue": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fApontamentos",
+			          "ConceptualProperty": "Issue"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Issue": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dcalendario.month_year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dCalendario",
+			          "ConceptualProperty": "Month/Year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dturno.name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dTurno",
+			          "ConceptualProperty": "Name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Shift": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fparadas.horas_paradas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fParadas",
+			          "ConceptualProperty": "Horas Paradas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Downtime hours": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fparadas.qtd_paradas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fParadas",
+			          "ConceptualProperty": "Qtd Paradas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Stops": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dmotivo.reason": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dMotivo",
+			          "ConceptualProperty": "Reason"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Reason": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dproduto.family": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dProduto",
+			          "ConceptualProperty": "Family"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Product family": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

@@ -1,0 +1,216 @@
+{
+  "name": "tabelaMaq",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "dMaquina.Máquina",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dMaquina"
+                    }
+                  },
+                  "Property": "Máquina"
+                }
+              },
+              "nativeQueryRef": "Máquina",
+              "displayName": "Machine"
+            },
+            {
+              "queryRef": "fApontamentos.Disponibilidade",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Disponibilidade"
+                }
+              },
+              "nativeQueryRef": "Disponibilidade",
+              "displayName": "Availability"
+            },
+            {
+              "queryRef": "fApontamentos.Desempenho",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Desempenho"
+                }
+              },
+              "nativeQueryRef": "Desempenho",
+              "displayName": "Performance"
+            },
+            {
+              "queryRef": "fApontamentos.Qualidade",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Qualidade"
+                }
+              },
+              "nativeQueryRef": "Qualidade",
+              "displayName": "Quality"
+            },
+            {
+              "queryRef": "fApontamentos.OEE",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "OEE"
+                }
+              },
+              "nativeQueryRef": "OEE"
+            },
+            {
+              "queryRef": "fApontamentos.% Refugo",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "% Refugo"
+                }
+              },
+              "nativeQueryRef": "% Refugo",
+              "displayName": "Scrap %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fApontamentos"
+                  }
+                },
+                "Property": "OEE"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {}
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fApontamentos"
+                        }
+                      },
+                      "Property": "Cor OEE"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "fApontamentos.OEE"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPIs by machine'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 16,
+    "y": 94,
+    "width": 616,
+    "height": 614,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json"
+}

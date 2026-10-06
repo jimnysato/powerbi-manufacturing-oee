@@ -1,0 +1,112 @@
+table dCalendario
+	lineageTag: 0d84f3b9-ae21-4369-97cf-0606787ab561
+	dataCategory: Time
+
+	column Data
+		dataType: dateTime
+		isKey
+		formatString: dd/mm/yyyy
+		lineageTag: c10276eb-9a6f-4926-b07a-da147b787e41
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 891b6249-823a-42df-8b30-2681830d6fbc
+		summarizeBy: none
+		sourceColumn: Ano
+
+	column 'Mês Num'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dc2e124e-46ab-4975-8f86-7eaeb6a1c8fb
+		summarizeBy: none
+		sourceColumn: Mês Num
+
+	column Mês
+		dataType: string
+		lineageTag: 7645541d-ce6a-43f5-affe-08cf84772f09
+		summarizeBy: none
+		sourceColumn: Mês
+		sortByColumn: 'Mês Num'
+
+	column Month
+		dataType: string
+		lineageTag: 11a443c5-2fa3-460b-b9c9-9e991e5ded53
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: 'Mês Num'
+
+	column 'Ano Mês Num'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6f9aac5e-2411-4be2-8740-47a683da750d
+		summarizeBy: none
+		sourceColumn: Ano Mês Num
+
+	column Mês/Ano
+		dataType: string
+		lineageTag: 1c730bc1-3fa3-4b32-aafa-0892fc9a21ef
+		summarizeBy: none
+		sourceColumn: Mês/Ano
+		sortByColumn: 'Ano Mês Num'
+
+	column Month/Year
+		dataType: string
+		lineageTag: 54f56714-83e9-4760-8c6d-0224c8c60c7d
+		summarizeBy: none
+		sourceColumn: Month/Year
+		sortByColumn: 'Ano Mês Num'
+
+	column 'Dia Semana Num'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 73dd4015-0099-4a24-81db-50df877fa638
+		summarizeBy: none
+		sourceColumn: Dia Semana Num
+
+	column 'Dia da Semana'
+		dataType: string
+		lineageTag: 46d5366b-90d6-4052-95cb-15394bfda9b4
+		summarizeBy: none
+		sourceColumn: Dia da Semana
+		sortByColumn: 'Dia Semana Num'
+
+	column Weekday
+		dataType: string
+		lineageTag: fb5ca4cb-04c8-4c15-a7ab-f5f50790b7ba
+		summarizeBy: none
+		sourceColumn: Weekday
+		sortByColumn: 'Dia Semana Num'
+
+	partition dCalendario = m
+		mode: import
+		source =
+				let
+				    Datas = ApontamentosOrigem[Data],
+				    Inicio = Date.StartOfMonth(List.Min(Datas)),
+				    Fim = Date.EndOfMonth(List.Max(Datas)),
+				    Lista = List.Dates(Inicio, Duration.Days(Fim - Inicio) + 1, #duration(1, 0, 0, 0)),
+				    Tabela = Table.FromList(Lista, Splitter.SplitByNothing(), {"Data"}),
+				    Tipo = Table.TransformColumnTypes(Tabela, {{"Data", type date}}),
+				    Ano = Table.AddColumn(Tipo, "Ano", each Date.Year([Data]), Int64.Type),
+				    MesNum = Table.AddColumn(Ano, "Mês Num", each Date.Month([Data]), Int64.Type),
+				    Mes = Table.AddColumn(MesNum, "Mês", each Text.Proper(Text.Start(Date.MonthName([Data], "pt-BR"), 3)), type text),
+				    Month = Table.AddColumn(Mes, "Month", each Text.Start(Date.MonthName([Data], "en-US"), 3), type text),
+				    AnoMesNum = Table.AddColumn(Month, "Ano Mês Num", each [Ano] * 100 + [Mês Num], Int64.Type),
+				    MesAno = Table.AddColumn(AnoMesNum, "Mês/Ano", each [Mês] & "/" & Text.End(Text.From([Ano]), 2), type text),
+				    MonthYear = Table.AddColumn(MesAno, "Month/Year", each [Month] & "/" & Text.End(Text.From([Ano]), 2), type text),
+				    DiaNum = Table.AddColumn(MonthYear, "Dia Semana Num", each Date.DayOfWeek([Data], Day.Monday) + 1, Int64.Type),
+				    Dia = Table.AddColumn(DiaNum, "Dia da Semana", each Text.Proper(Text.Start(Date.DayOfWeekName([Data], "pt-BR"), 3)), type text),
+				    Weekday = Table.AddColumn(Dia, "Weekday", each Text.Start(Date.DayOfWeekName([Data], "en-US"), 3), type text)
+				in
+				    Weekday
+
+	annotation PBI_ResultType = Table
+

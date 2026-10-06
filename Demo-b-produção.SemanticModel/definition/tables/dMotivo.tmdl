@@ -1,0 +1,49 @@
+table dMotivo
+	lineageTag: 91714800-2b17-4c3b-9e65-95fe10f46dda
+
+	column 'Cód. Motivo'
+		dataType: string
+		isKey
+		lineageTag: 0866dff8-79c7-45dc-9526-d09d908a2c2d
+		summarizeBy: none
+		sourceColumn: Cód. Motivo
+
+	column Motivo
+		dataType: string
+		lineageTag: a317ee60-b96c-4e19-b3f6-5ae61d9271db
+		summarizeBy: none
+		sourceColumn: Motivo
+
+	column Reason
+		dataType: string
+		lineageTag: 69efdfef-0c3f-4fcc-825e-a566706b92f9
+		summarizeBy: none
+		sourceColumn: Reason
+
+	column Tipo
+		dataType: string
+		lineageTag: 32606da7-5b6c-46d9-9f52-6567701e357b
+		summarizeBy: none
+		sourceColumn: Tipo
+
+	column Type
+		dataType: string
+		lineageTag: c05d886e-ade6-4a2c-9f3f-59be93dc5566
+		summarizeBy: none
+		sourceColumn: Type
+
+	partition dMotivo = m
+		mode: import
+		source =
+				let
+				    Planilha = CadastrosOrigem{[Item = "Motivos", Kind = "Sheet"]}[Data],
+				    Cabecalhos = Table.PromoteHeaders(Planilha, [PromoteAllScalars = true]),
+				    Tipos = Table.TransformColumnTypes(Cabecalhos, {{"Cód. Motivo", type text}, {"Motivo", type text}, {"Reason", type text}, {"Tipo", type text}, {"Type", type text}}),
+				    // linha para paradas apontadas sem motivo
+				    NaoInformado = #table(Value.Type(Tipos), {{"M99", "Não informado", "Not informed", "Não informado", "Not informed"}}),
+				    Final = Table.Combine({Tipos, NaoInformado})
+				in
+				    Final
+
+	annotation PBI_ResultType = Table
+

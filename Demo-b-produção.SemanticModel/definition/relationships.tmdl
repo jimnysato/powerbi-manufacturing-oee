@@ -1,0 +1,36 @@
+relationship ap_calendario
+	fromColumn: fApontamentos.Data
+	toColumn: dCalendario.Data
+
+relationship ap_maquina
+	fromColumn: fApontamentos.Máquina
+	toColumn: dMaquina.Máquina
+
+relationship ap_produto
+	fromColumn: fApontamentos.'Cód. Produto'
+	toColumn: dProduto.'Cód. Produto'
+
+relationship ap_turno
+	fromColumn: fApontamentos.Turno
+	toColumn: dTurno.Turno
+
+relationship par_calendario
+	fromColumn: fParadas.Data
+	toColumn: dCalendario.Data
+
+relationship par_maquina
+	fromColumn: fParadas.Máquina
+	toColumn: dMaquina.Máquina
+
+relationship par_produto
+	fromColumn: fParadas.'Cód. Produto'
+	toColumn: dProduto.'Cód. Produto'
+
+relationship par_turno
+	fromColumn: fParadas.Turno
+	toColumn: dTurno.Turno
+
+relationship par_motivo
+	fromColumn: fParadas.'Cód. Motivo'
+	toColumn: dMotivo.'Cód. Motivo'
+

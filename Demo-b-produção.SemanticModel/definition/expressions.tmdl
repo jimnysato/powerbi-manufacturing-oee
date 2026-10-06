@@ -1,0 +1,40 @@
+/// Pasta onde estão Apontamentos.xlsx e Cadastros.xlsx
+expression CaminhoDados = "C:\Users\Vitor\.claude\freelance\portfolio\demo-b-producao\dados\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 1c25b9e0-0f9a-48e9-abed-4968842e38a3
+
+	annotation PBI_ResultType = Text
+
+/// Export do sistema de apontamento com tipos corrigidos (não carregada; base de fApontamentos e fParadas)
+expression ApontamentosOrigem =
+		let
+		    Fonte = Excel.Workbook(File.Contents(CaminhoDados & "Apontamentos.xlsx"), null, true),
+		    Planilha = Fonte{[Item = "Apontamentos", Kind = "Sheet"]}[Data],
+		    Cabecalhos = Table.PromoteHeaders(Planilha, [PromoteAllScalars = true]),
+		    Tipos = Table.TransformColumnTypes(Cabecalhos, {
+		        {"ID Apontamento", Int64.Type}, {"Data", type text}, {"Turno", type text}, {"Máquina", type text},
+		        {"OP", type text}, {"Cód. Produto", type text}, {"Matrícula", type text},
+		        {"Hora Início", type text}, {"Hora Fim", type text},
+		        {"Qtd Prevista", Int64.Type}, {"Qtd Produzida", Int64.Type}, {"Qtd Refugo", Int64.Type},
+		        {"Motivo Parada 1", type text}, {"Min Parada 1", Int64.Type},
+		        {"Motivo Parada 2", type text}, {"Min Parada 2", Int64.Type},
+		        {"Motivo Parada 3", type text}, {"Min Parada 3", Int64.Type},
+		        {"Motivo Parada 4", type text}, {"Min Parada 4", Int64.Type},
+		        {"Motivo Parada 5", type text}, {"Min Parada 5", Int64.Type}}),
+		    // data vem como texto dd/mm/aaaa no export
+		    Datas = Table.TransformColumns(Tipos, {{"Data", each Date.FromText(_, [Format = "dd/MM/yyyy", Culture = "pt-BR"]), type date}})
+		in
+		    Datas
+	lineageTag: 22b30726-c5ca-48b5-939f-d5bbda56f2a4
+
+	annotation PBI_ResultType = Table
+
+/// Planilha de cadastros (não carregada; base das dimensões)
+expression CadastrosOrigem =
+		let
+		    Fonte = Excel.Workbook(File.Contents(CaminhoDados & "Cadastros.xlsx"), null, true)
+		in
+		    Fonte
+	lineageTag: 6458aa89-7082-4159-be8f-b5907b05b729
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,115 @@
+/// Uma linha por parada: os 5 pares Motivo/Min do apontamento viram linhas
+table fParadas
+	lineageTag: 8b94fbfe-8080-407e-ad75-ec4c28292d30
+
+	measure 'Min Parada' = SUM ( fParadas[Minutos] )
+		formatString: #,0
+		displayFolder: Paradas
+		lineageTag: 610ef802-57a7-4758-a738-e50031caa57b
+
+	measure 'Qtd Paradas' = COUNTROWS ( fParadas )
+		formatString: #,0
+		displayFolder: Paradas
+		lineageTag: 33d398db-b24c-4b6b-bae3-7fe0e0bd821c
+
+	measure '% Min Parada' = DIVIDE ( [Min Parada], CALCULATE ( [Min Parada], ALLSELECTED ( dMotivo ) ) )
+		formatString: 0.0%
+		displayFolder: Paradas
+		lineageTag: 575b7843-08c8-46e9-a120-e637aead6f2a
+
+	/// % acumulado dos motivos com minutos maiores ou iguais ao atual (funciona com eixo em Motivo ou Reason)
+	measure 'Pareto % Acumulado' =
+			VAR Atual = [Min Parada]
+			VAR Motivos =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( dMotivo[Cód. Motivo] ), "@Min", [Min Parada] ),
+			        ALLSELECTED ( dMotivo )
+			    )
+			VAR Acumulado = SUMX ( FILTER ( Motivos, [@Min] >= Atual ), [@Min] )
+			RETURN
+			    IF ( NOT ISBLANK ( Atual ), DIVIDE ( Acumulado, SUMX ( Motivos, [@Min] ) ) )
+		formatString: 0%
+		displayFolder: Paradas
+		lineageTag: a8095361-9cf9-444c-b8f7-c8db3a47d73c
+
+	measure 'Horas Paradas' = DIVIDE ( [Min Parada], 60 )
+		formatString: #,0
+		displayFolder: Paradas
+		lineageTag: 8160aee0-b741-45d8-81ef-18a7736aeaad
+
+	column 'ID Apontamento'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 896ac804-dc67-498e-9142-12657e65a4c8
+		summarizeBy: none
+		sourceColumn: ID Apontamento
+
+	column Data
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: 60b5adee-2783-44c5-b586-91f6e9f30e0e
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Turno
+		dataType: string
+		isHidden
+		lineageTag: 51322704-7c5f-4adc-b725-fe96a5d79ef8
+		summarizeBy: none
+		sourceColumn: Turno
+
+	column Máquina
+		dataType: string
+		isHidden
+		lineageTag: 154d21f5-05af-4a71-a2eb-620b6ce9f8b7
+		summarizeBy: none
+		sourceColumn: Máquina
+
+	column 'Cód. Produto'
+		dataType: string
+		isHidden
+		lineageTag: b3c6a41b-a47b-4884-86f8-73e502414961
+		summarizeBy: none
+		sourceColumn: Cód. Produto
+
+	column 'Cód. Motivo'
+		dataType: string
+		isHidden
+		lineageTag: d9138ee2-b7d1-45c6-b296-f47df66dcc6c
+		summarizeBy: none
+		sourceColumn: Cód. Motivo
+
+	column Minutos
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: e4363566-64ad-49ec-a021-55c5bc0a0c91
+		summarizeBy: sum
+		sourceColumn: Minutos
+
+	partition fParadas = m
+		mode: import
+		source =
+				let
+				    Origem = ApontamentosOrigem,
+				    Pares = List.Transform({1..5}, (i) =>
+				        let n = Text.From(i)
+				        in Table.RenameColumns(
+				            Table.SelectColumns(Origem, {"ID Apontamento", "Data", "Turno", "Máquina", "Cód. Produto", "Motivo Parada " & n, "Min Parada " & n}),
+				            {{"Motivo Parada " & n, "Motivo"}, {"Min Parada " & n, "Minutos"}})),
+				    Empilhado = Table.Combine(Pares),
+				    ComParada = Table.SelectRows(Empilhado, each [Minutos] <> null and [Minutos] > 0),
+				    SemMotivo = Table.ReplaceValue(ComParada, null, "Não informado", Replacer.ReplaceValue, {"Motivo"}),
+				    ComCodigo = Table.NestedJoin(SemMotivo, {"Motivo"}, dMotivo, {"Motivo"}, "M", JoinKind.LeftOuter),
+				    Expandido = Table.ExpandTableColumn(ComCodigo, "M", {"Cód. Motivo"}),
+				    Colunas = Table.SelectColumns(Expandido, {"ID Apontamento", "Data", "Turno", "Máquina", "Cód. Produto", "Cód. Motivo", "Minutos"}),
+				    Tipos = Table.TransformColumnTypes(Colunas, {{"Cód. Motivo", type text}, {"Minutos", Int64.Type}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table
+

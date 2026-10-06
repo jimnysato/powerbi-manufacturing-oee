@@ -1,0 +1,42 @@
+table dTurno
+	lineageTag: 9b22a36a-837d-480d-abf4-5e1bb92b26d9
+
+	column Turno
+		dataType: string
+		isKey
+		lineageTag: 2024ecc8-b6ea-4e19-9f8a-8821a30c60d4
+		summarizeBy: none
+		sourceColumn: Turno
+
+	column Nome
+		dataType: string
+		lineageTag: e48cf81b-335f-4f44-8e93-b61ffb0613f6
+		summarizeBy: none
+		sourceColumn: Nome
+
+	column Name
+		dataType: string
+		lineageTag: 3fb1d9fa-4b56-455f-b883-d139af3b0430
+		summarizeBy: none
+		sourceColumn: Name
+
+	column Horário
+		dataType: string
+		lineageTag: 333e843f-ff7c-45aa-b182-20840dbdf7cd
+		summarizeBy: none
+		sourceColumn: Horário
+
+	partition dTurno = m
+		mode: import
+		source =
+				let
+				    Planilha = CadastrosOrigem{[Item = "Turnos", Kind = "Sheet"]}[Data],
+				    Cabecalhos = Table.PromoteHeaders(Planilha, [PromoteAllScalars = true]),
+				    Tipos = Table.TransformColumnTypes(Cabecalhos, {{"Turno", type text}, {"Nome", type text}, {"Name", type text}, {"Início", type text}, {"Fim", type text}}),
+				    Horario = Table.AddColumn(Tipos, "Horário", each [Início] & "–" & [Fim], type text),
+				    Colunas = Table.SelectColumns(Horario, {"Turno", "Nome", "Name", "Horário"})
+				in
+				    Colunas
+
+	annotation PBI_ResultType = Table
+

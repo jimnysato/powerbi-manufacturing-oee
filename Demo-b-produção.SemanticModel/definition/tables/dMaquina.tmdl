@@ -1,0 +1,36 @@
+table dMaquina
+	lineageTag: a408654d-a46d-4e7d-8d19-26b322780199
+
+	column Máquina
+		dataType: string
+		isKey
+		lineageTag: 86c164d7-5599-41a4-9770-80d50315f17c
+		summarizeBy: none
+		sourceColumn: Máquina
+
+	column Tonelagem
+		dataType: int64
+		formatString: 0
+		lineageTag: d2bd27a5-f45b-427f-9ce6-06502d7530aa
+		summarizeBy: none
+		sourceColumn: Tonelagem
+
+	column 'Ano Fabricação'
+		dataType: int64
+		formatString: 0
+		lineageTag: d2491764-eb57-4afc-87f7-ef0523f9ee99
+		summarizeBy: none
+		sourceColumn: Ano Fabricação
+
+	partition dMaquina = m
+		mode: import
+		source =
+				let
+				    Planilha = CadastrosOrigem{[Item = "Injetoras", Kind = "Sheet"]}[Data],
+				    Cabecalhos = Table.PromoteHeaders(Planilha, [PromoteAllScalars = true]),
+				    Tipos = Table.TransformColumnTypes(Cabecalhos, {{"Máquina", type text}, {"Tonelagem", Int64.Type}, {"Ano Fabricação", Int64.Type}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,71 @@
+table dProduto
+	lineageTag: 9e1ec614-69e6-4164-90f9-18164c3fba52
+
+	column 'Cód. Produto'
+		dataType: string
+		isKey
+		lineageTag: c81f7998-e632-4a03-ba7a-0a4caa6a9b7b
+		summarizeBy: none
+		sourceColumn: Cód. Produto
+
+	column Descrição
+		dataType: string
+		lineageTag: af97bf4f-2c42-49f2-8e7e-91d0b6c4fbf5
+		summarizeBy: none
+		sourceColumn: Descrição
+
+	column Description
+		dataType: string
+		lineageTag: 7b6459c8-85b1-40eb-ae7e-2a9a3c5cc00c
+		summarizeBy: none
+		sourceColumn: Description
+
+	column Família
+		dataType: string
+		lineageTag: 39058928-d8a7-4375-a0ba-7130505f47eb
+		summarizeBy: none
+		sourceColumn: Família
+
+	column Family
+		dataType: string
+		lineageTag: e4cf46ec-4ff9-42a1-bf89-db3f28c0bc9d
+		summarizeBy: none
+		sourceColumn: Family
+
+	/// Tempo de ciclo ideal em segundos (uma injeção)
+	column 'Ciclo (s)'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 1a7d632d-1964-4e53-98d4-d4f97f88b6c1
+		summarizeBy: none
+		sourceColumn: Ciclo (s)
+
+	column Cavidades
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d8e2ed9-5513-4f74-abcc-62ea277d52b4
+		summarizeBy: none
+		sourceColumn: Cavidades
+
+	column 'Peso (g)'
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 8457a55c-7dab-44af-a6d0-1c2af8feb7e6
+		summarizeBy: none
+		sourceColumn: Peso (g)
+
+	partition dProduto = m
+		mode: import
+		source =
+				let
+				    Planilha = CadastrosOrigem{[Item = "Produtos", Kind = "Sheet"]}[Data],
+				    Cabecalhos = Table.PromoteHeaders(Planilha, [PromoteAllScalars = true]),
+				    Tipos = Table.TransformColumnTypes(Cabecalhos, {
+				        {"Cód. Produto", type text}, {"Descrição", type text}, {"Description", type text},
+				        {"Família", type text}, {"Family", type text},
+				        {"Ciclo (s)", type number}, {"Cavidades", Int64.Type}, {"Peso (g)", type number}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table
+

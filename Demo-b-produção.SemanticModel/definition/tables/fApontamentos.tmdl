@@ -1,0 +1,288 @@
+/// Um apontamento por injetora x turno x dia
+table fApontamentos
+	lineageTag: f59fcf64-a18e-4e37-b9a6-bf215d927d60
+
+	measure Produzido = SUM ( fApontamentos[Qtd Produzida] )
+		formatString: #,0
+		displayFolder: Produção
+		lineageTag: bc4a9ea6-95f3-42fc-91c1-bd7a5aa9b23b
+
+	measure Refugo = SUM ( fApontamentos[Qtd Refugo] )
+		formatString: #,0
+		displayFolder: Produção
+		lineageTag: d2cf8c7c-e644-4e5a-8d2a-3e39f523ff2e
+
+	measure 'Peças Boas' = [Produzido] - [Refugo]
+		formatString: #,0
+		displayFolder: Produção
+		lineageTag: 0b3d90d4-cf94-4df9-89a5-529a92894865
+
+	/// Previsto só dos apontamentos com quantidade produzida informada
+	measure Previsto = CALCULATE ( SUM ( fApontamentos[Qtd Prevista] ), NOT ISBLANK ( fApontamentos[Qtd Produzida] ) )
+		formatString: #,0
+		displayFolder: Produção
+		lineageTag: 494fce15-d3ad-4148-9e3f-28f5a5aa231a
+
+	measure '% Refugo' = DIVIDE ( [Refugo], [Produzido] )
+		formatString: 0.0%
+		displayFolder: Produção
+		lineageTag: 5f9ecde9-0f8c-4974-b14b-252a541ba58f
+
+	measure 'Eficiência vs Previsto' = DIVIDE ( [Produzido], [Previsto] )
+		formatString: 0.0%
+		displayFolder: Produção
+		lineageTag: 7cd3d3e2-bafa-4adb-a48f-2a9768a69763
+
+	measure 'Tempo Programado (min)' = CALCULATE ( SUM ( fApontamentos[Min Programado] ), NOT ISBLANK ( fApontamentos[Qtd Produzida] ) )
+		formatString: #,0
+		displayFolder: Tempo
+		lineageTag: abf54825-0c6d-4a9c-96df-7e260c9f14df
+
+	measure 'Tempo Parado (min)' = CALCULATE ( SUM ( fApontamentos[Min Parado] ), NOT ISBLANK ( fApontamentos[Qtd Produzida] ) )
+		formatString: #,0
+		displayFolder: Tempo
+		lineageTag: 56cdb19d-d5bd-4bb8-a324-7e0b9b7472cd
+
+	measure 'Tempo Operando (min)' = [Tempo Programado (min)] - [Tempo Parado (min)]
+		formatString: #,0
+		displayFolder: Tempo
+		lineageTag: 3c51a6e0-b3f8-4112-9207-27ef1264fac3
+
+	measure '% Tempo Parado' = DIVIDE ( [Tempo Parado (min)], [Tempo Programado (min)] )
+		formatString: 0.0%
+		displayFolder: Tempo
+		lineageTag: d41fa634-a5f6-431d-a405-a69b066139b6
+
+	/// Minutos que a produção levaria no ciclo ideal do produto
+	measure 'Tempo Ideal (min)' = SUMX ( fApontamentos, fApontamentos[Qtd Produzida] * RELATED ( dProduto[Ciclo (s)] ) / RELATED ( dProduto[Cavidades] ) / 60 )
+		formatString: #,0
+		displayFolder: Tempo
+		lineageTag: 3be6af8c-e7a2-4c31-9cde-7d440f3d767e
+
+	/// Tempo operando / tempo programado
+	measure Disponibilidade = DIVIDE ( [Tempo Operando (min)], [Tempo Programado (min)] )
+		formatString: 0.0%
+		displayFolder: OEE
+		lineageTag: 6af21764-a3c0-49ff-abad-e3b97692501a
+
+	/// Tempo ideal da produção / tempo operando
+	measure Desempenho = DIVIDE ( [Tempo Ideal (min)], [Tempo Operando (min)] )
+		formatString: 0.0%
+		displayFolder: OEE
+		lineageTag: 136367aa-76d1-4e6e-9d1a-147e5ccd017f
+
+	/// Peças boas / peças produzidas
+	measure Qualidade = DIVIDE ( [Peças Boas], [Produzido] )
+		formatString: 0.0%
+		displayFolder: OEE
+		lineageTag: 519a29a4-6bd0-4045-9a12-913420b4dedc
+
+	/// Disponibilidade x Desempenho x Qualidade
+	measure OEE = [Disponibilidade] * [Desempenho] * [Qualidade]
+		formatString: 0.0%
+		displayFolder: OEE
+		lineageTag: 9a35009a-42d3-48b7-847f-c4e32e06555a
+
+	measure 'Meta OEE' = 0.75
+		formatString: 0%
+		displayFolder: OEE
+		lineageTag: 350f5621-c690-48b8-ad70-fc44f639909d
+
+	measure Apontamentos = COUNTROWS ( fApontamentos )
+		formatString: #,0
+		displayFolder: Qualidade dos dados
+		lineageTag: 2a1c63f9-eb62-4f6b-a670-60091cea7173
+
+	measure 'Apontamentos com Problema' = CALCULATE ( [Apontamentos], KEEPFILTERS ( fApontamentos[Problema] <> "OK" ) )
+		formatString: #,0
+		displayFolder: Qualidade dos dados
+		lineageTag: 98e5a93b-826b-44d4-94d0-498be52f6a0b
+
+	measure '% Apontamentos Completos' = DIVIDE ( [Apontamentos] - [Apontamentos com Problema], [Apontamentos] )
+		formatString: 0.0%
+		displayFolder: Qualidade dos dados
+		lineageTag: b5eba601-7c54-42c1-a590-c9c6bdb60aeb
+
+	/// OEE dos últimos 7 dias até a data (suaviza a oscilação diária)
+	measure 'OEE Média Móvel 7d' = CALCULATE ( [OEE], DATESINPERIOD ( dCalendario[Data], MAX ( dCalendario[Data] ), -7, DAY ) )
+		formatString: 0.0%
+		displayFolder: OEE
+		lineageTag: 853a619d-8cf3-4708-96ec-39db17f897f6
+
+	measure 'OEE 1º Turno' = CALCULATE ( [OEE], KEEPFILTERS ( dTurno[Turno] = "T1" ) )
+		formatString: 0.0%
+		displayFolder: OEE\Por turno
+		lineageTag: 7dcc0703-5ac9-45bc-8c11-4e1fa8c6e339
+
+	measure 'OEE 2º Turno' = CALCULATE ( [OEE], KEEPFILTERS ( dTurno[Turno] = "T2" ) )
+		formatString: 0.0%
+		displayFolder: OEE\Por turno
+		lineageTag: ddd7e895-86c2-45d6-8bfc-f8e1254a604a
+
+	measure 'OEE 3º Turno' = CALCULATE ( [OEE], KEEPFILTERS ( dTurno[Turno] = "T3" ) )
+		formatString: 0.0%
+		displayFolder: OEE\Por turno
+		lineageTag: ecb7ff45-7b29-402b-be38-7cc0dee91076
+
+	/// Vermelho abaixo da meta, ciano na meta ou acima
+	measure 'Cor OEE' = IF ( NOT ISBLANK ( [OEE] ), IF ( [OEE] < [Meta OEE], "#F87171", "#4FD1C5" ) )
+		displayFolder: Formatação
+		lineageTag: aeda5b6f-cb34-4e57-907a-0f5c779b4ef5
+
+	measure 'Subtítulo OEE' = "Meta " & FORMAT ( [Meta OEE], "0%" )
+		displayFolder: Formatação
+		lineageTag: 4dc4b2a0-6f72-443a-bb9c-4ac6490fc919
+
+	column 'ID Apontamento'
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: e28c2353-d71b-4dcb-b891-2d8e012729e6
+		summarizeBy: none
+		sourceColumn: ID Apontamento
+
+	column Data
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: 0a58cd4d-cc67-44c6-bd4e-428060da30e3
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Turno
+		dataType: string
+		isHidden
+		lineageTag: d6ad82d7-a41e-48e4-ba32-5111a6535b22
+		summarizeBy: none
+		sourceColumn: Turno
+
+	column Máquina
+		dataType: string
+		isHidden
+		lineageTag: 8a9e4372-be97-477b-b66c-769db2699cf3
+		summarizeBy: none
+		sourceColumn: Máquina
+
+	column OP
+		dataType: string
+		lineageTag: 4049e0b3-0c9e-414f-a9e6-8c218d83e525
+		summarizeBy: none
+		sourceColumn: OP
+
+	column 'Cód. Produto'
+		dataType: string
+		isHidden
+		lineageTag: 5c21b75b-a947-4a15-aa9d-611e493d11f8
+		summarizeBy: none
+		sourceColumn: Cód. Produto
+
+	column Matrícula
+		dataType: string
+		lineageTag: 69f680f9-d21e-4adc-9a0b-48a593dc1d28
+		summarizeBy: none
+		sourceColumn: Matrícula
+
+	column Início
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: f6ba004b-4e9e-4b17-8dbd-09948200753f
+		summarizeBy: none
+		sourceColumn: Início
+
+	column Fim
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 14616237-9f37-4ea6-af70-f12b38ebd516
+		summarizeBy: none
+		sourceColumn: Fim
+
+	/// Minutos do turno (Fim - Início; 3º turno cruza a meia-noite). Sem hora de fim, assume o turno padrão de 480 min.
+	column 'Min Programado'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 79d1697a-a272-4a4c-91b6-023ae9a71c56
+		summarizeBy: sum
+		sourceColumn: Min Programado
+
+	column 'Min Parado'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 2db3d2bf-31c7-499f-a588-97ed5adbb2e8
+		summarizeBy: sum
+		sourceColumn: Min Parado
+
+	column 'Qtd Prevista'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 708a1d7f-b577-4729-94f2-5c99d7baa59f
+		summarizeBy: sum
+		sourceColumn: Qtd Prevista
+
+	column 'Qtd Produzida'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: dfe648f0-8059-47c8-a311-00e1f5615845
+		summarizeBy: sum
+		sourceColumn: Qtd Produzida
+
+	column 'Qtd Refugo'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 8d1c0325-3649-4f4c-ab01-99b5aba5f656
+		summarizeBy: sum
+		sourceColumn: Qtd Refugo
+
+	/// OK ou o primeiro problema encontrado no registro
+	column Problema
+		dataType: string
+		lineageTag: 54b59463-b17f-4abc-96ea-1b821cb292ad
+		summarizeBy: none
+		sourceColumn: Problema
+
+	/// Problema em inglês (versão EN do relatório)
+	column Issue = SWITCH ( fApontamentos[Problema], "OK", "OK", "Sem quantidade produzida", "Missing produced quantity", "Sem hora de fim", "Missing end time", "Parada sem motivo", "Stop without reason", fApontamentos[Problema] )
+		dataType: string
+		lineageTag: cde85038-8de9-436f-bdc0-ff35cfe3a541
+		summarizeBy: none
+
+	partition fApontamentos = m
+		mode: import
+		source =
+				let
+				    Origem = ApontamentosOrigem,
+				    MinParado = Table.AddColumn(Origem, "Min Parado", each
+				        let s = List.Sum(List.RemoveNulls({[Min Parada 1], [Min Parada 2], [Min Parada 3], [Min Parada 4], [Min Parada 5]}))
+				        in if s = null then 0 else s, Int64.Type),
+				    Inicio = Table.AddColumn(MinParado, "Início", each [Data] & Time.FromText([Hora Início]), type datetime),
+				    // 3º turno: hora de fim menor que a de início = termina no dia seguinte
+				    Fim = Table.AddColumn(Inicio, "Fim", each
+				        if [Hora Fim] = null then null
+				        else
+				            let h = Time.FromText([Hora Fim])
+				            in (if h <= Time.FromText([Hora Início]) then Date.AddDays([Data], 1) else [Data]) & h, type datetime),
+				    Programado = Table.AddColumn(Fim, "Min Programado", each
+				        if [Fim] = null then 480 else Duration.TotalMinutes([Fim] - [Início]), Int64.Type),
+				    Problema = Table.AddColumn(Programado, "Problema", (r) =>
+				        if r[Qtd Produzida] = null then "Sem quantidade produzida"
+				        else if r[Hora Fim] = null then "Sem hora de fim"
+				        else if List.AnyTrue(List.Transform({1..5}, (i) =>
+				            Record.Field(r, "Min Parada " & Text.From(i)) <> null
+				            and Record.Field(r, "Motivo Parada " & Text.From(i)) = null)) then "Parada sem motivo"
+				        else "OK", type text),
+				    Colunas = Table.SelectColumns(Problema, {
+				        "ID Apontamento", "Data", "Turno", "Máquina", "OP", "Cód. Produto", "Matrícula",
+				        "Início", "Fim", "Min Programado", "Min Parado",
+				        "Qtd Prevista", "Qtd Produzida", "Qtd Refugo", "Problema"})
+				in
+				    Colunas
+
+	annotation PBI_ResultType = Table
+
