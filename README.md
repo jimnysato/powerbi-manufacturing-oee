@@ -1,7 +1,7 @@
 # Manufacturing KPIs — Why do the machines stop?
 
 **Power BI · DAX · Power Query · Python (synthetic data)**
-Portfolio project by **Vitor Sato** — BI for manufacturing and construction.
+Portfolio project by **Vitor Sato** — Power BI & data analysis.
 
 ![Production overview](prints/en/1-overview.png)
 
@@ -84,7 +84,9 @@ prints/                         screenshots (en/, pt/)
 
 ## About me
 
-Data analyst in São Paulo, Brazil. Before data, I spent years implementing systems and running projects with manufacturing and construction clients, so I start from the process and only then build the metrics.
+Data analyst in São Paulo, Brazil. Before data, I spent years implementing systems and running projects with clients across many industries (manufacturing, construction, healthcare, logistics and energy), so I start from the process and only then build the metrics.
+
+Portfolio website: https://portfolio-vitor-sato.vercel.app
 
 - LinkedIn: [linkedin.com/in/vitorsato](https://www.linkedin.com/in/vitorsato)
 - E-mail: vitorsato@icloud.com
