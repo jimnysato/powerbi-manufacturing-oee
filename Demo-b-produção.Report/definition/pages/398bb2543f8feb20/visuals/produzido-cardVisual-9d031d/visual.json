@@ -128,7 +128,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Produzido'"
+                  "Value": "'Produção do mês'"
                 }
               }
             }

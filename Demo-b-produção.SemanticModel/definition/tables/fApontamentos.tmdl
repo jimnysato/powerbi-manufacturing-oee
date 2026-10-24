@@ -133,6 +133,39 @@ table fApontamentos
 		displayFolder: Formatação
 		lineageTag: 4dc4b2a0-6f72-443a-bb9c-4ac6490fc919
 
+	/// Título dinâmico da página Ficha diária
+	measure 'Título Ficha' =
+			VAR Maq = SELECTEDVALUE ( dMaquina[Máquina], "todas as injetoras" )
+			VAR Dia = SELECTEDVALUE ( dCalendario[Data] )
+			RETURN "Ficha diária · " & Maq & " · " & IF ( ISBLANK ( Dia ), "selecione um dia", FORMAT ( Dia, "dd/MM/yyyy" ) )
+		displayFolder: Formatação
+		lineageTag: fdafeaf7-c47b-4439-9a7d-df02b98b5f51
+
+	/// Texto de alerta de apontamentos incompletos da Ficha diária
+	measure 'Alerta Ficha' =
+			VAR P = [Apontamentos com Problema]
+			RETURN IF ( P > 0, "Atenção: " & P & " apontamento(s) incompleto(s) no período. Conferir com os operadores antes de fechar a ficha.", "Todos os apontamentos do período estão completos." )
+		displayFolder: Formatação
+		lineageTag: 5a71f832-dbb8-49b4-ac59-102e0e05c82c
+
+	measure 'Cor Alerta Ficha' = IF ( [Apontamentos com Problema] > 0, "#F6AD55", "#4FD1C5" )
+		displayFolder: Formatação
+		lineageTag: 03c53a89-c73c-4821-9f0e-90db8c39ee9d
+
+	/// Dynamic title for the Daily sheet page (EN report)
+	measure 'Daily Sheet Title' =
+			VAR Maq = SELECTEDVALUE ( dMaquina[Máquina], "all machines" )
+			VAR Dia = SELECTEDVALUE ( dCalendario[Data] )
+			RETURN "Daily sheet · " & Maq & " · " & IF ( ISBLANK ( Dia ), "select a day", FORMAT ( Dia, "yyyy-MM-dd" ) )
+		displayFolder: Formatação
+		lineageTag: 29f79cab-b6b7-4a10-805d-09e2994d7116
+
+	measure 'Daily Sheet Alert' =
+			VAR P = [Apontamentos com Problema]
+			RETURN IF ( P > 0, "Warning: " & P & " incomplete record(s) in the period. Check with operators before closing the sheet.", "All records in the period are complete." )
+		displayFolder: Formatação
+		lineageTag: b7bb1c9b-bd3e-4e36-9317-31c8e6401082
+
 	column 'ID Apontamento'
 		dataType: int64
 		isHidden

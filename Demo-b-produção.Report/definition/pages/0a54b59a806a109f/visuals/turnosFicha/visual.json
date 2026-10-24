@@ -1,0 +1,252 @@
+{
+  "name": "turnosFicha",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "dTurno.Nome",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dTurno"
+                    }
+                  },
+                  "Property": "Nome"
+                }
+              },
+              "nativeQueryRef": "Nome",
+              "displayName": "Turno"
+            },
+            {
+              "queryRef": "fApontamentos.OP",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "OP"
+                }
+              },
+              "nativeQueryRef": "OP"
+            },
+            {
+              "queryRef": "dProduto.Descrição",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dProduto"
+                    }
+                  },
+                  "Property": "Descrição"
+                }
+              },
+              "nativeQueryRef": "Descrição",
+              "displayName": "Produto"
+            },
+            {
+              "queryRef": "fApontamentos.Produzido",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Produzido"
+                }
+              },
+              "nativeQueryRef": "Produzido"
+            },
+            {
+              "queryRef": "fApontamentos.Previsto",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Previsto"
+                }
+              },
+              "nativeQueryRef": "Previsto"
+            },
+            {
+              "queryRef": "fApontamentos.Refugo",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Refugo"
+                }
+              },
+              "nativeQueryRef": "Refugo"
+            },
+            {
+              "queryRef": "fApontamentos.Tempo Parado (min)",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Tempo Parado (min)"
+                }
+              },
+              "nativeQueryRef": "Tempo Parado (min)",
+              "displayName": "Min parado"
+            },
+            {
+              "queryRef": "fApontamentos.OEE",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "OEE"
+                }
+              },
+              "nativeQueryRef": "OEE"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fApontamentos"
+                        }
+                      },
+                      "Property": "Cor OEE"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "fApontamentos.OEE"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Produção por turno'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 16,
+    "y": 244,
+    "width": 1248,
+    "height": 200,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json"
+}

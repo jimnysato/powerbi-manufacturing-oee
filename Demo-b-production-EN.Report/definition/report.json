@@ -75,6 +75,11 @@
           "name": "sqlbi.json",
           "path": "sqlbi.json",
           "type": "CustomTheme"
+        },
+        {
+          "name": "fundo-pagina-logo-nome-1280x720_17912888076901610.png",
+          "path": "fundo-pagina-logo-nome-1280x720_17912888076901610.png",
+          "type": "Image"
         }
       ]
     }

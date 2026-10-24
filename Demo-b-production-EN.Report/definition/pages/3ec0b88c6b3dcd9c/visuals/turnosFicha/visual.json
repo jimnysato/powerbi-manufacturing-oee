@@ -1,0 +1,256 @@
+{
+  "name": "4b0bc7cc3a390593",
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "queryRef": "dTurno.Name",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dTurno"
+                    }
+                  },
+                  "Property": "Name"
+                }
+              },
+              "nativeQueryRef": "Name",
+              "displayName": "Shift"
+            },
+            {
+              "queryRef": "fApontamentos.OP",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "OP"
+                }
+              },
+              "nativeQueryRef": "OP",
+              "displayName": "Work order"
+            },
+            {
+              "queryRef": "dProduto.Description",
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dProduto"
+                    }
+                  },
+                  "Property": "Description"
+                }
+              },
+              "nativeQueryRef": "Description",
+              "displayName": "Product"
+            },
+            {
+              "queryRef": "fApontamentos.Produzido",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Produzido"
+                }
+              },
+              "nativeQueryRef": "Produzido",
+              "displayName": "Produced"
+            },
+            {
+              "queryRef": "fApontamentos.Previsto",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Previsto"
+                }
+              },
+              "nativeQueryRef": "Previsto",
+              "displayName": "Planned"
+            },
+            {
+              "queryRef": "fApontamentos.Refugo",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Refugo"
+                }
+              },
+              "nativeQueryRef": "Refugo",
+              "displayName": "Scrap"
+            },
+            {
+              "queryRef": "fApontamentos.Tempo Parado (min)",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "Tempo Parado (min)"
+                }
+              },
+              "nativeQueryRef": "Tempo Parado (min)",
+              "displayName": "Downtime min"
+            },
+            {
+              "queryRef": "fApontamentos.OEE",
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fApontamentos"
+                    }
+                  },
+                  "Property": "OEE"
+                }
+              },
+              "nativeQueryRef": "OEE"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fApontamentos"
+                        }
+                      },
+                      "Property": "Cor OEE"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "fApontamentos.OEE"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Production by shift'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "position": {
+    "x": 16,
+    "y": 244,
+    "width": 1248,
+    "height": 200,
+    "z": 0,
+    "tabOrder": 0
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json"
+}

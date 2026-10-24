@@ -28,7 +28,8 @@
               },
               "queryRef": "dCalendario.Data",
               "nativeQueryRef": "Data",
-              "active": true
+              "active": true,
+              "displayName": "Date"
             }
           ]
         },

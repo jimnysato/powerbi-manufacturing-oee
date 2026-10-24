@@ -509,6 +509,16 @@
           {
             "show": false
           }
+        ],
+        "title": [
+          {
+            "show": false
+          }
+        ],
+        "divider": [
+          {
+            "show": false
+          }
         ]
       }
     },
